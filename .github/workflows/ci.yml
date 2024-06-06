@@ -21,13 +21,16 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+        working-directory: ./my-app
 
       - name: Run tests
         run: npm test
+        working-directory: ./my-app
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -39,12 +42,14 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+        working-directory: ./my-app
 
       - name: Build project
         run: npm run build
+        working-directory: ./my-app
 
       - name: Deploy to GitHub Pages
         run: npm run deploy
+        working-directory: ./my-app
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
