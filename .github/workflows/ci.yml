@@ -47,6 +47,12 @@ jobs:
       - name: Build project
         run: npm run build
         working-directory: ./my-app
+    
+      - name: Configure Git
+        run: |
+          git config --global user.email "agustinbrites@gmail.com"
+          git config --global user.name "AgustinB123"
+        working-directory: ./my-app
 
       - name: Deploy to GitHub Pages
         run: npm run deploy
