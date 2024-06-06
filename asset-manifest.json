@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/IC-REACT/static/css/main.8c8b27cf.chunk.css",
+    "main.js": "/IC-REACT/static/js/main.91bbf42d.chunk.js",
+    "main.js.map": "/IC-REACT/static/js/main.91bbf42d.chunk.js.map",
+    "runtime-main.js": "/IC-REACT/static/js/runtime-main.c4416fdd.js",
+    "runtime-main.js.map": "/IC-REACT/static/js/runtime-main.c4416fdd.js.map",
+    "static/js/2.615a9974.chunk.js": "/IC-REACT/static/js/2.615a9974.chunk.js",
+    "static/js/2.615a9974.chunk.js.map": "/IC-REACT/static/js/2.615a9974.chunk.js.map",
+    "static/js/3.6025f549.chunk.js": "/IC-REACT/static/js/3.6025f549.chunk.js",
+    "static/js/3.6025f549.chunk.js.map": "/IC-REACT/static/js/3.6025f549.chunk.js.map",
+    "index.html": "/IC-REACT/index.html",
+    "static/css/main.8c8b27cf.chunk.css.map": "/IC-REACT/static/css/main.8c8b27cf.chunk.css.map",
+    "static/js/2.615a9974.chunk.js.LICENSE.txt": "/IC-REACT/static/js/2.615a9974.chunk.js.LICENSE.txt",
+    "static/media/logo.6ce24c58.svg": "/IC-REACT/static/media/logo.6ce24c58.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.c4416fdd.js",
+    "static/js/2.615a9974.chunk.js",
+    "static/css/main.8c8b27cf.chunk.css",
+    "static/js/main.91bbf42d.chunk.js"
+  ]
+}
