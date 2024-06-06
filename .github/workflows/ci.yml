@@ -58,7 +58,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git remote set-url origin https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
-          npm run deploy
+            git config --global user.email "agustinbrites@gmail.com"
+            git config --global user.name "AgustinB123"
+            npx gh-pages -d build -r https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
         working-directory: ./my-app
 
