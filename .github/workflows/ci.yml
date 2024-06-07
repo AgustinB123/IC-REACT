@@ -52,7 +52,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_PROJECT_KEY: AgustinB123_IC-REACT
         run: |
-          npm install -g sonar-scanner
+          npm install -g -X sonar-scanner
           sonar-scanner \
             -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
             -Dsonar.projectKey=AgustinB123_IC-REACT \
