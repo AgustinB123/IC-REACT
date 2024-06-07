@@ -48,7 +48,7 @@ jobs:
             -Dsonar.exclusions=./my-app/src/App.test.js,./my-app/src/index.js,./my-app/src/jest.config.js,./my-app/src/reportWebVitals.js \
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
-            -Dsonar.javascript.lcov.reportPaths=./my-app/coverage/lcov.info
+            -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info
         working-directory: ./my-app
 
       - name: Check SonarQube Quality Gate
@@ -65,7 +65,7 @@ jobs:
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.qualitygate.wait=true \
             -Dsonar.qualitygate.timeout=300 \
-            -Dsonar.javascript.lcov.reportPaths=./my-app/coverage/lcov.info
+            -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info
 
           if [ $? -ne 0 ]; then
             echo "La verificación de la puerta de calidad falló, saliendo..."
