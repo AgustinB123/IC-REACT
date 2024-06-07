@@ -49,8 +49,8 @@ jobs:
 
       - name: Check SonarQube Quality Gate
         env:
-            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-            SONAR_PROJECT_KEY: AgustinB123_IC-REACT
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_PROJECT_KEY: AgustinB123_IC-REACT
         run: |
           npm install -g sonar-scanner
           sonar-scanner \
@@ -58,14 +58,12 @@ jobs:
             -Dsonar.projectKey=AgustinB123_IC-REACT \
             -Dsonar.qualitygate.wait=true \
             -Dsonar.qualitygate.timeout=300
-        continue-on-error: true
-
-         # Si la verificación de la puerta de calidad falla, el flujo de trabajo se detendrá aquí
           if [ $? -ne 0 ]; then
             echo "La verificación de la puerta de calidad falló, saliendo..."
             exit 1
           fi
-
+        continue-on-error: true
+      
 
   deploy:  # Nombre del trabajo (Despliegue)
         needs: build  # Necesita que el trabajo "build" se haya ejecutado primero
