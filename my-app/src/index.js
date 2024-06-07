@@ -11,7 +11,9 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-// If you want to start measuring performance in your app, pass a function asdasda
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+//Este archivo index.js es el punto de entrada de tu aplicación React. Se encarga de importar las librerías necesarias, 
+//definir el componente principal, y renderizarlo en el navegador utilizando el elemento HTML con id "root".
+// La medición de rendimiento es una funcionalidad opcional que puedes activar si lo necesitas.
+
+
 reportWebVitals();

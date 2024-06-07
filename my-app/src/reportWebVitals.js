@@ -11,3 +11,4 @@ const reportWebVitals = onPerfEntry => {
 };
 
 export default reportWebVitals;
+//Esta función se utiliza para medir el rendimiento de la aplicación (Core Web Vitals) pero su implementación está vacía en tu código actual.
