@@ -47,6 +47,26 @@ jobs:
             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
         working-directory: ./my-app
 
+      - name: Check SonarQube Quality Gate
+        env:
+            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+            SONAR_PROJECT_KEY: AgustinB123_IC-REACT
+        run: |
+          npm install -g sonar-scanner
+          sonar-scanner \
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
+            -Dsonar.projectKey=AgustinB123_IC-REACT \
+            -Dsonar.qualitygate.wait=true \
+            -Dsonar.qualitygate.timeout=300
+        continue-on-error: true
+
+          # If the quality gate check fails, the workflow will stop here
+          if [ $? -ne 0 ]; then
+            echo "Quality Gate check failed, exiting..."
+            exit 1
+          fi
+
+
   deploy:  # Nombre del trabajo (Despliegue)
         needs: build  # Necesita que el trabajo "build" se haya ejecutado primero
         runs-on: ubuntu-latest  # Se ejecuta en una máquina virtual Ubuntu
