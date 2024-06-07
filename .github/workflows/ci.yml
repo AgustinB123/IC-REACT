@@ -60,9 +60,9 @@ jobs:
             -Dsonar.qualitygate.timeout=300
         continue-on-error: true
 
-          # If the quality gate check fails, the workflow will stop here
+         # Si la verificación de la puerta de calidad falla, el flujo de trabajo se detendrá aquí
           if [ $? -ne 0 ]; then
-            echo "Quality Gate check failed, exiting..."
+            echo "La verificación de la puerta de calidad falló, saliendo..."
             exit 1
           fi
 
