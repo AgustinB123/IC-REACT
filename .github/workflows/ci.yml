@@ -92,4 +92,4 @@ jobs:
           git config --global user.email "agustinbrites@gmail.com"
           git config --global user.name "Agustin Brites"  
           npx gh-pages -d build -r https://${{ secrets.ACTIONS_DEPLOY_KEY }}@github.com/${{ github.repository }}.git
-        working-directory: ./my-app  # Directorio de trabajo (carpeta de la aplicación)
+        working-directory: ./my-app  # Directorio de trabajo (carpeta de la aplicación)sdsds
