@@ -22,5 +22,5 @@
     "@testing-library/jest-dom": "^6.4.5",
     "@testing-library/react": "^12.1.2",
     "gh-pages": "^3.2.3"
-    }
+  }
 }
