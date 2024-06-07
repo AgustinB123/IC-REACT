@@ -28,6 +28,19 @@ jobs:
         run: npm test  # Comando para ejecutar tests
         working-directory: ./my-app  # Directorio de trabajo (carpeta de la aplicación)
 
+      - name: Run SonarQube analysis
+        env:
+            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+            SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+        run: |
+          npm install -g sonar-scanner
+          sonar-scanner \
+            -Dsonar.projectKey=IC-REACT \
+            -Dsonar.sources=./my-app/src \
+            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+        working-directory: ./my-app
+
   deploy:  # Nombre del trabajo (Despliegue)
         needs: build  # Necesita que el trabajo "build" se haya ejecutado primero
         runs-on: ubuntu-latest  # Se ejecuta en una máquina virtual Ubuntu
@@ -53,8 +66,8 @@ jobs:
             env:  # Variables de entorno
               ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}  # Clave secreta para despliegue
             run: |  # Comando multi-línea para despliegue
-              git config --global user.email "agustinbrites@gmail.com"  # Configurar email para git
-              git config --global user.name "Agustin Brites"  # Configurar nombre para git
-              npx gh-pages -d build -r https://${{ secrets.ACTIONS_DEPLOY_KEY }}@github.com/${{ github.repository }}.git  # Desplegar a GitHub Pages
-              working-directory: ./my-app  # Directorio de trabajo (carpeta de la aplicación)
+              git config --global user.email "agustinbrites@gmail.com"
+              git config --global user.name "Agustin Brites"  
+              npx gh-pages -d build -r https://${{ secrets.ACTIONS_DEPLOY_KEY }}@github.com/${{ github.repository }}.git
+            working-directory: ./my-app  # Directorio de trabajo (carpeta de la aplicación)
       
