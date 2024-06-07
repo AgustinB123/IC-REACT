@@ -26,7 +26,7 @@ jobs:
 
       - name: Ejecutar tests
         run: npm test  # Comando para ejecutar tests
-        working-directory: ./my-app  # Directorio de trabajo (carpeta de la aplicación)
+        working-directory: ./my-app  # Directorio de trabajo (carpeta de la aplicación)   
       - name: Set up Java
         uses: actions/setup-java@v2
         with:
