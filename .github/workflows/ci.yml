@@ -44,8 +44,7 @@ jobs:
           sonar-scanner \
             -Dsonar.projectKey=AgustinB123_IC-REACT \
             -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }} \
-            -Dsonar.sources=./src/App.js \
-            -Dsonar.exclusions=./src/App.test.js,./src/index.js,./src/jest.config.js,./src/reportWebVitals.js \
+            -Dsonar.sources=src/App.js,src/App.test.js \
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
             -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info
@@ -102,3 +101,4 @@ jobs:
           git config --global user.name "Agustin Brites"
           npx gh-pages -d build -r https://${{ secrets.ACTIONS_DEPLOY_KEY }}@github.com/${{ github.repository }}.git
         working-directory: ./my-app  # Directorio de trabajo (carpeta de la aplicación)
+
