@@ -63,6 +63,8 @@ jobs:
             -Dsonar.projectKey=AgustinB123_IC-REACT \
             -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }} \
             -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.sources=src/App.js \
+            -Dsonar.exclusions=src/App.test.js,src/index.js,src/jest.config.js,src/reportWebVitals.js \
             -Dsonar.qualitygate.wait=true \
             -Dsonar.qualitygate.timeout=300 \
             -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info
