@@ -44,7 +44,8 @@ jobs:
           sonar-scanner \
             -Dsonar.projectKey=AgustinB123_IC-REACT \
             -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }} \
-            -Dsonar.sources=src/App.js,src/App.test.js \
+            -Dsonar.sources=src/App.js \
+            -Dsonar.exclusions=src/App.test.js,src/index.js,src/jest.config.js,src/reportWebVitals.js \
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
             -Dsonar.javascript.lcov.reportPaths=./coverage/lcov.info
@@ -70,7 +71,6 @@ jobs:
             echo "La verificación de la puerta de calidad falló, saliendo..."
             exit 1
           fi
-        working-directory: ./my-app
 
   deploy:
     needs: build  # Necesita que el trabajo "build" se haya ejecutado primero
