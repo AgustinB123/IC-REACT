@@ -21,8 +21,6 @@ function App() {
 
 export default App;
 
-
-
 /*introducir vulnerabilidades  sadssaada
 import React, { useState } from 'react';
 import './App.css';
