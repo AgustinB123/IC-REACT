@@ -21,7 +21,7 @@ jobs:
           node-version: '14'  # Versión específica de Node.js
 
       - name: Instalar dependencias
-        run: npm install  # Comando para instalar dependencias
+        run: npm install  # Comando para instalar dependencias  
         working-directory: ./my-app
 
       - name: Ejecutar tests
