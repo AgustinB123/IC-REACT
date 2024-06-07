@@ -1,58 +1,60 @@
 name: CI
 
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+    push:  # Se ejecuta cuando se realiza un push al repositorio
+      branches: [ main ]  # Solo en la rama principal (main)
+    pull_request:  # Se ejecuta cuando se crea una pull request
+      branches: [ main ]  # Solo en la rama principal (main)
+  
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  build:  # Nombre del trabajo (Construcción)
+    runs-on: ubuntu-latest  # Se ejecuta en una máquina virtual Ubuntu
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    steps:  # Pasos que se ejecutan en el trabajo
+      - name: Descargar código del repositorio
+        uses: actions/checkout@v2  # Acción para descargar el código
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
+      - name: Configurar Node.js
+        uses: actions/setup-node@v2  # Acción para configurar Node.js
+        with:  # Opciones de configuración
+          node-version: '14'  # Versión específica de Node.js
 
-      - name: Install dependencies
-        run: npm install
+      - name: Instalar dependencias
+        run: npm install  # Comando para instalar dependencias
         working-directory: ./my-app
 
-      - name: Run tests
-        run: npm test
-        working-directory: ./my-app
+      - name: Ejecutar tests
+        run: npm test  # Comando para ejecutar tests
+        working-directory: ./my-app  # Directorio de trabajo (carpeta de la aplicación)
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-
-      - name: Install dependencies
-        run: npm install
-        working-directory: ./my-app
-
-      - name: Build project
-        run: npm run build
-        working-directory: ./my-app
-
-      - name: Deploy to GitHub Pages
-        env:
-          ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-        run: |
-          git config --global user.email "agustinbrites@gmail.com"
-          git config --global user.name "Agustin Brites"
-          npx gh-pages -d build -r https://${{ secrets.ACTIONS_DEPLOY_KEY }}@github.com/${{ github.repository }}.git
-        working-directory: ./my-app
+  deploy:  # Nombre del trabajo (Despliegue)
+        needs: build  # Necesita que el trabajo "build" se haya ejecutado primero
+        runs-on: ubuntu-latest  # Se ejecuta en una máquina virtual Ubuntu
+      
+        steps:  # Pasos que se ejecutan en el trabajo
+          - name: Descargar código del repositorio
+            uses: actions/checkout@v2  # Acción para descargar el código
+      
+          - name: Configurar Node.js
+            uses: actions/setup-node@v2  # Acción para configurar Node.js
+            with:  # Opciones de configuración
+              node-version: '14'  # Versión específica de Node.js
+      
+          - name: Instalar dependencias
+            run: npm install  # Comando para instalar dependencias
+            working-directory: ./my-app   
+      
+          - name: Construir el proyecto para despliegue
+            run: npm run build  # Comando para construir el proyecto (generar assets para producción)
+            working-directory: ./my-app 
+      
+          - name: Desplegar a GitHub Pages
+            env:  # Variables de entorno
+              ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}  # Clave secreta para despliegue
+            run: |  # Comando multi-línea para despliegue
+              git config --global user.email "agustinbrites@gmail.com"  # Configurar email para git
+              git config --global user.name "Agustin Brites"  # Configurar nombre para git
+              npx gh-pages -d build -r https://${{ secrets.ACTIONS_DEPLOY_KEY }}@github.com/${{ github.repository }}.git  # Desplegar a GitHub Pages
+              working-directory: ./my-app  # Directorio de trabajo (carpeta de la aplicación)
+      
