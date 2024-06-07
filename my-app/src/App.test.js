@@ -37,7 +37,7 @@ test('button click updates the message', () => {
   expect(messageElement).toBeInTheDocument();
 });
 
-// Añade más pruebas para cubrir diferentes casos de uso
+// Añade más pruebas para cubrir diferentes casos de uso     asdadsa sda fas fasd
 test('message is not displayed initially', () => {
   render(<App />);
   const messageElement = screen.queryByText(/¡Has hecho clic en el botón!/i);
