@@ -20,11 +20,11 @@ jobs:
           node-version: '14'
 
       - name: Instalar dependencias
-        working-directory: ./my-app  # Asegúrate de estar en el directorio correcto
+        working-directory: ./my-app
         run: npm install
 
       - name: Ejecutar tests y generar cobertura
-        working-directory: ./my-app  # Asegúrate de estar en el directorio correcto
+        working-directory: ./my-app
         run: npm test -- --coverage
 
       - name: Configurar Java
@@ -37,7 +37,7 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_ORGANIZATION: ${{ secrets.SONAR_ORGANIZATION }}
-        working-directory: ./my-app  # Asegúrate de estar en el directorio correcto
+        working-directory: ./my-app
         run: |
           npm install -g sonar-scanner
           sonar-scanner \
@@ -50,13 +50,15 @@ jobs:
       - name: Check SonarQube Quality Gate
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_ORGANIZATION: ${{ secrets.SONAR_ORGANIZATION }}
           SONAR_PROJECT_KEY: AgustinB123_IC-REACT
-        working-directory: ./my-app  # Asegúrate de estar en el directorio correcto
+        working-directory: ./my-app
         run: |
           npm install -g sonar-scanner
           sonar-scanner \
             -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
             -Dsonar.projectKey=AgustinB123_IC-REACT \
+            -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }} \
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.qualitygate.wait=true \
             -Dsonar.qualitygate.timeout=300
@@ -79,17 +81,17 @@ jobs:
           node-version: '14'
 
       - name: Instalar dependencias
-        working-directory: ./my-app  # Asegúrate de estar en el directorio correcto
+        working-directory: ./my-app
         run: npm install
 
       - name: Construir el proyecto para despliegue
-        working-directory: ./my-app  # Asegúrate de estar en el directorio correcto
+        working-directory: ./my-app
         run: npm run build
 
       - name: Desplegar a GitHub Pages
         env:
           ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-        working-directory: ./my-app  # Asegúrate de estar en el directorio correcto
+        working-directory: ./my-app
         run: |
           git config --global user.email "agustinbrites@gmail.com"
           git config --global user.name "Agustin Brites"
