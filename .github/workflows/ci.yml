@@ -23,7 +23,7 @@ jobs:
         run: npm install
         working-directory: ./my-app
 
-      - name: Ejecutar tests
+      - name: Ejecutar tests con cobertura
         run: npm test -- --coverage
         working-directory: ./my-app
 
@@ -45,7 +45,7 @@ jobs:
             -Dsonar.sources=src/App.js \
             -Dsonar.exclusions=src/App.test.js,src/index.js,src/jest.config.js,src/reportWebVitals.js \
             -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
             -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
         working-directory: ./my-app
 
@@ -70,7 +70,7 @@ jobs:
 
   deploy:
     needs: build
-    if: success()
+    if: success()  # Asegura que el despliegue solo ocurra si el trabajo 'build' fue exitoso
     runs-on: ubuntu-latest
 
     steps:
