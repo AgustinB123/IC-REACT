@@ -20,7 +20,9 @@ test('displays message on button click', () => {
 
 */
 
+import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
 import App from './App';
 
 test('renders the welcome message', () => {
@@ -37,12 +39,12 @@ test('button click updates the message', () => {
   expect(messageElement).toBeInTheDocument();
 });
 
-// Añade más pruebas para cubrir diferentes casos de uso     asdadsa sda fas fasd
 test('message is not displayed initially', () => {
   render(<App />);
   const messageElement = screen.queryByText(/¡Has hecho clic en el botón!/i);
   expect(messageElement).toBeNull();
 });
+
 
 
 
