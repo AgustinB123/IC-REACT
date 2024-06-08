@@ -20,9 +20,11 @@ jobs:
           node-version: '14'
 
       - name: Instalar dependencias
+        working-directory: ./my-app  # Asegúrate de estar en el directorio correcto
         run: npm install
 
       - name: Ejecutar tests y generar cobertura
+        working-directory: ./my-app  # Asegúrate de estar en el directorio correcto
         run: npm test -- --coverage
 
       - name: Configurar Java
@@ -35,6 +37,7 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_ORGANIZATION: ${{ secrets.SONAR_ORGANIZATION }}
+        working-directory: ./my-app  # Asegúrate de estar en el directorio correcto
         run: |
           npm install -g sonar-scanner
           sonar-scanner \
@@ -43,12 +46,12 @@ jobs:
             -Dsonar.sources=src \
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
-        working-directory: .
 
       - name: Check SonarQube Quality Gate
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_PROJECT_KEY: AgustinB123_IC-REACT
+        working-directory: ./my-app  # Asegúrate de estar en el directorio correcto
         run: |
           npm install -g sonar-scanner
           sonar-scanner \
@@ -76,16 +79,18 @@ jobs:
           node-version: '14'
 
       - name: Instalar dependencias
+        working-directory: ./my-app  # Asegúrate de estar en el directorio correcto
         run: npm install
 
       - name: Construir el proyecto para despliegue
+        working-directory: ./my-app  # Asegúrate de estar en el directorio correcto
         run: npm run build
 
       - name: Desplegar a GitHub Pages
         env:
           ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+        working-directory: ./my-app  # Asegúrate de estar en el directorio correcto
         run: |
           git config --global user.email "agustinbrites@gmail.com"
           git config --global user.name "Agustin Brites"
           npx gh-pages -d build -r https://${{ secrets.ACTIONS_DEPLOY_KEY }}@github.com/${{ github.repository }}.git
-        working-directory: .
