@@ -2,42 +2,41 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Descargar código del repositorio
+      - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Configurar Node.js
+      - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
           node-version: '14'
 
-      - name: Instalar dependencias
+      - name: Install dependencies
+        run: npm ci
         working-directory: ./my-app
-        run: npm install
 
-      - name: Ejecutar tests y generar cobertura
-        working-directory: ./my-app
+      - name: Run tests with coverage
         run: npm test -- --coverage
+        working-directory: ./my-app
 
-      - name: Configurar Java
+      - name: Set up Java
         uses: actions/setup-java@v2
         with:
           distribution: 'adopt'
           java-version: '17'
 
-      - name: Ejecutar análisis de SonarQube
+      - name: Run SonarQube analysis
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_ORGANIZATION: ${{ secrets.SONAR_ORGANIZATION }}
-        working-directory: ./my-app
         run: |
           npm install -g sonar-scanner
           sonar-scanner \
@@ -46,24 +45,21 @@ jobs:
             -Dsonar.sources=src \
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+        working-directory: ./my-app
 
       - name: Check SonarQube Quality Gate
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_ORGANIZATION: ${{ secrets.SONAR_ORGANIZATION }}
           SONAR_PROJECT_KEY: AgustinB123_IC-REACT
-        working-directory: ./my-app
         run: |
           npm install -g sonar-scanner
           sonar-scanner \
             -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
             -Dsonar.projectKey=AgustinB123_IC-REACT \
-            -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }} \
-            -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.qualitygate.wait=true \
             -Dsonar.qualitygate.timeout=300
           if [ $? -ne 0 ]; then
-            echo "La verificación de la puerta de calidad falló, saliendo..."
+            echo "SonarQube Quality Gate check failed, exiting..."
             exit 1
           fi
 
@@ -72,27 +68,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Descargar código del repositorio
+      - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Configurar Node.js
+      - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
           node-version: '14'
 
-      - name: Instalar dependencias
+      - name: Install dependencies
+        run: npm ci
         working-directory: ./my-app
-        run: npm install
 
-      - name: Construir el proyecto para despliegue
-        working-directory: ./my-app
+      - name: Build project
         run: npm run build
+        working-directory: ./my-app
 
-      - name: Desplegar a GitHub Pages
+      - name: Deploy to GitHub Pages
         env:
           ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-        working-directory: ./my-app
         run: |
           git config --global user.email "agustinbrites@gmail.com"
           git config --global user.name "Agustin Brites"
           npx gh-pages -d build -r https://${{ secrets.ACTIONS_DEPLOY_KEY }}@github.com/${{ github.repository }}.git
+        working-directory: ./my-app

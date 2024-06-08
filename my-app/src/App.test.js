@@ -46,6 +46,7 @@ test('message is not displayed initially', () => {
 });
 
 
+
 ///Pruebas unitarias:
 //La primera prueba (renders welcome message) verifica que el texto "Bienvenido a mi aplicación React" 
 //se renderice correctamente en el componente App.
