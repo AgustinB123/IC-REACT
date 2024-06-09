@@ -20,7 +20,7 @@ jobs:
           node-version: '14'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
         working-directory: ./my-app
 
       - name: Run tests
@@ -44,8 +44,8 @@ jobs:
             -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }} \
             -Dsonar.sources=src \
             -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
-        working-directory: ./my-app
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
+            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
 
       - name: Check SonarQube Quality Gate
         env:
@@ -65,33 +65,4 @@ jobs:
             echo "La verificación de la puerta de calidad falló, saliendo..."
             exit 1
           fi
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-
-      - name: Install dependencies
-        run: npm install
-        working-directory: ./my-app
-
-      - name: Build project for deployment
-        run: npm run build
-        working-directory: ./my-app
-
-      - name: Deploy to GitHub Pages
-        env:
-          ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-        run: |
-          git config --global user.email "agustinbrites@gmail.com"
-          git config --global user.name "Agustin Brites"
-          npx gh-pages -d build -r https://${{ secrets.ACTIONS_DEPLOY_KEY }}@github.com/${{ github.repository }}.git
-        working-directory: ./my-app
+          
