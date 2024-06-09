@@ -30,40 +30,13 @@ jobs:
       - name: Test and coverage
         run: npm test --coverage
         working-directory: ./my-app
-        
-      - name: Run SonarQube analysis
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_ORGANIZATION: ${{ secrets.SONAR_ORGANIZATION }}
-        run: |
-          npm install -g sonar-scanner
-          sonar-scanner \
-            -Dsonar.projectKey=AgustinB123_IC-REACT \
-            -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }} \
-            -Dsonar.sources=./my-app/src \
-            -Dsonar.exclusions=**/*.test.js,**/babel.config.js,**/jest.config.js,**/reportWebVitals.js \
-            -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
-            -Dsonar.javascript.lcov.reportPaths=./my-app/coverage/lcov.info
 
-      - name: Check SonarQube Quality Gate
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_PROJECT_KEY: AgustinB123_IC-REACT
-          SONAR_ORGANIZATION: ${{ secrets.SONAR_ORGANIZATION }}
-        run: |
-          npm install -g sonar-scanner
-          sonar-scanner \
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
-            -Dsonar.projectKey=AgustinB123_IC-REACT \
-            -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }} \
-            -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.qualitygate.wait=true \
-            -Dsonar.qualitygate.timeout=300
-          if [ $? -ne 0 ]; then
-            echo "La verificación de la puerta de calidad falló, saliendo..."
-            exit 1
-          fi
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN}}
+
+      
 
   deploy:
     needs: build
