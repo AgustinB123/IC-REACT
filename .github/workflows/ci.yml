@@ -21,7 +21,7 @@ jobs:
 
       - name: Install dependencies
         run: npm install
-        working-directory: ./IC-REACT
+        working-directory: ./my-app
 
       - name: Run tests
         run: npm test -- --coverage
