@@ -25,11 +25,12 @@ jobs:
 
       - name: Run tests
         run: npm test -- --coverage
-        working-directory: ./IC-REACT
+        working-directory: ./my-app
 
       - name: Test and coverage
         run: npm test --coverage
-
+        working-directory: ./my-app
+        
       - name: Run SonarQube analysis
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
