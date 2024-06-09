@@ -32,6 +32,10 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: '17'
+      - name: Debug Coverage
+        run: cat ./my-app/coverage/lcov.info
+        working-directory: ./my-app
+  
 
       - name: Run SonarQube analysis
         env:
@@ -72,27 +76,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-        - name: Checkout repository
-          uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-        - name: Setup Node.js
-          uses: actions/setup-node@v2
-          with:
-            node-version: '14'
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
 
-        - name: Install dependencies
-          run: npm install
-          working-directory: ./my-app
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./my-app
 
-        - name: Build project for deployment
-          run: npm run build
-          working-directory: ./my-app
+      - name: Build project for deployment
+        run: npm run build
+        working-directory: ./my-app
 
-        - name: Deploy to GitHub Pages
-          env:
-            ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-          run: |
-            git config --global user.email "agustinbrites@gmail.com"
-            git config --global user.name "Agustin Brites"
-            npx gh-pages -d build -r https://${{ secrets.ACTIONS_DEPLOY_KEY }}@github.com/${{ github.repository }}.git
-          working-directory: ./my-app
+      - name: Deploy to GitHub Pages
+        env:
+          ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+        run: |
+          git config --global user.email "agustinbrites@gmail.com"
+          git config --global user.name "Agustin Brites"
+          npx gh-pages -d build -r https://${{ secrets.ACTIONS_DEPLOY_KEY }}@github.com/${{ github.repository }}.git
+        working-directory: ./my-app
