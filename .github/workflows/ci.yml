@@ -2,94 +2,68 @@ name: CI
 
 on:
   push:
-    branches: [ main ]  # Solo en la rama principal (main)
+    branches: [ main ]
   pull_request:
-    branches: [ main ]  # Solo en la rama principal (main)
+    branches: [ main ]
 
 jobs:
   build:
-    runs-on: ubuntu-latest  # Se ejecuta en una máquina virtual Ubuntu
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Descargar código del repositorio
-        uses: actions/checkout@v2  # Acción para descargar el código
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-      - name: Configurar Node.js
-        uses: actions/setup-node@v2  # Acción para configurar Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
         with:
-          node-version: '14'  # Versión específica de Node.js
+          node-version: '18'
 
-      - name: Instalar dependencias
-        run: npm install  # Comando para instalar dependencias
+      - name: Install dependencies
+        run: npm install
         working-directory: ./my-app
 
-      - name: Ejecutar tests
-        run: npm test  # Comando para ejecutar tests
-        working-directory: ./my-app  # Directorio de trabajo (carpeta de la aplicación)
-
-      - name: Set up Java
-        uses: actions/setup-java@v2
-        with:
-          distribution: 'adopt'
-          java-version: '17'
-
-      - name: Run SonarQube analysis
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_ORGANIZATION: ${{ secrets.SONAR_ORGANIZATION }}
-        run: |
-          npm install -g sonar-scanner
-          sonar-scanner \
-            -Dsonar.projectKey=AgustinB123_IC-REACT \
-            -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }} \
-            -Dsonar.sources=src \
-            -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+      - name: Run tests
+        run: npm test -- --coverage
         working-directory: ./my-app
 
-      - name: Check SonarQube Quality Gate
+      - name: Test and coverage
+        run: npm test --coverage
+        working-directory: ./my-app
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_PROJECT_KEY: AgustinB123_IC-REACT
-        run: |
-          npm install -g sonar-scanner
-          sonar-scanner \
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
-            -Dsonar.projectKey=AgustinB123_IC-REACT \
-            -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.qualitygate.wait=true \
-            -Dsonar.qualitygate.timeout=300
-          if [ $? -ne 0 ]; then
-            echo "La verificación de la puerta de calidad falló, saliendo..."
-            exit 1
-          fi
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN}}
+
+      
 
   deploy:
-    needs: build  # Necesita que el trabajo "build" se haya ejecutado primero
-    runs-on: ubuntu-latest  # Se ejecuta en una máquina virtual Ubuntu
+    needs: build
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Descargar código del repositorio
-        uses: actions/checkout@v2  # Acción para descargar el código
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-      - name: Configurar Node.js
-        uses: actions/setup-node@v2  # Acción para configurar Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
         with:
-          node-version: '14'  # Versión específica de Node.js
+          node-version: '14'
 
-      - name: Instalar dependencias
-        run: npm install  # Comando para instalar dependencias
+      - name: Install dependencies
+        run: npm install
         working-directory: ./my-app
 
-      - name: Construir el proyecto para despliegue
-        run: npm run build  # Comando para construir el proyecto (generar assets para producción)
+      - name: Build project for deployment
+        run: npm run build
         working-directory: ./my-app
 
-      - name: Desplegar a GitHub Pages
-        env:  # Variables de entorno
-          ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}  # Clave secreta para despliegue
-        run: |  # Comando multi-línea para despliegue
+      - name: Deploy to GitHub Pages
+        env:
+          ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+        run: |
           git config --global user.email "agustinbrites@gmail.com"
           git config --global user.name "Agustin Brites"
           npx gh-pages -d build -r https://${{ secrets.ACTIONS_DEPLOY_KEY }}@github.com/${{ github.repository }}.git
-        working-directory: ./my-app  # Directorio de trabajo (carpeta de la aplicación)
+        working-directory: ./my-app
