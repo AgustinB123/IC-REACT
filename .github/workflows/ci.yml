@@ -56,6 +56,7 @@ jobs:
           sonar-scanner \
             -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
             -Dsonar.projectKey=AgustinB123_IC-REACT \
+            -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.qualitygate.wait=true \
             -Dsonar.qualitygate.timeout=300
           if [ $? -ne 0 ]; then
