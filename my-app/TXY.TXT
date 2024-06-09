@@ -33,6 +33,8 @@ module.exports = {
           distribution: 'adopt'
           java-version: '17'
 
+//--config=jest.config.js --coverage
+
 module.exports = {
   collectCoverage: true,
   coverageDirectory: 'coverage',
