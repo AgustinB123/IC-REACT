@@ -65,6 +65,7 @@ jobs:
           if [ $? -ne 0 ]; then
             echo "La verificación de la puerta de calidad falló, saliendo..."
             exit 1
+          fi
 
   deploy:
     needs: build
