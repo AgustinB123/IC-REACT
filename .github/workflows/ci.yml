@@ -27,19 +27,8 @@ jobs:
         run: npm test -- --coverage
         working-directory: ./my-app
 
-      - name: Verify coverage file
-        run: ls -la coverage
-        working-directory: ./my-app
-
-      - name: Debug Coverage
-        run: cat ./my-app/coverage/lcov.info
-        working-directory: ./my-app
-
-      - name: Setup Java
-        uses: actions/setup-java@v2
-        with:
-          distribution: 'adopt'
-          java-version: '17'
+      - name: Test and coverage
+        run: npm test --coverage
 
       - name: Run SonarQube analysis
         env:
