@@ -1,16 +1,15 @@
 module.exports = {
   collectCoverage: true,
   coverageDirectory: 'coverage',
-  collectCoverageFrom: ['src/**/*.{js,jsx}'],
-  coverageReporters: ['lcov', 'text', 'clover'],
+  collectCoverageFrom: ['src/App.js'],
   moduleNameMapper: {
-    '\\.(css|less)$': 'identity-obj-proxy',
+    "\\.(css|less)$": "identity-obj-proxy"
   },
   transform: {
     '^.+\\.js$': 'babel-jest',
   },
   watchPlugins: [
     'jest-watch-typeahead/filename',
-    'jest-watch-typeahead/testname',
+    'jest-watch-typeahead/testname'
   ],
 };

@@ -31,6 +31,9 @@ module.exports = {
   ],
 };
 
+cuando tenga errores de dependecias 
+rm -rf node_modules package-lock.json
+npm install
 
 
  npm test -- --coverage
